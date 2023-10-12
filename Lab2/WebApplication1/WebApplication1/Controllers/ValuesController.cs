@@ -10,23 +10,22 @@ namespace WebApplication1.Controllers
         public List<Student> students = new List<Student>
         {
             new Student { Id = 1, Name = "Ana", Age = 20},
-            new Student { Id = 1, Name = "Maria", Age = 19},
-            new Student { Id = 1, Name = "Vlad", Age = 22},
-            new Student { Id = 1, Name = "Florin", Age = 25},
-            new Student { Id = 1, Name = "Marian", Age = 23}
+            new Student { Id = 2, Name = "Maria", Age = 19},
+            new Student { Id = 4, Name = "Vlad", Age = 22},
+            new Student { Id = 5, Name = "Florin", Age = 25},
+            new Student { Id = 3, Name = "Marian", Age = 23}
         };
 
         [HttpGet]
         public List<Student> getAllOrdered()
         {
-            return students.OrderBy(s => s.Age).ToList();
+            return students.OrderBy(s => s.Id).ToList();
         }
 
         [HttpDelete]
-        public List<Student> Delete(Student st)
+        public List<Student> DeleteById(int ID)
         {
-            var studentI = students.FindIndex(s => s.Id == st.Id);
-            students.RemoveAt(studentI);
+            students.RemoveAll(students => students.Id == ID);
             return students;
         }
     }
