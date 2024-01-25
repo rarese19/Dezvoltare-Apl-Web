@@ -22,7 +22,7 @@ namespace backend.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("backend.Models.Test", b =>
+            modelBuilder.Entity("backend.Models.Materie", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,13 +34,100 @@ namespace backend.Migrations
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("name")
+                    b.Property<int>("NrCredite")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nume")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tests");
+                    b.ToTable("Materii");
+                });
+
+            modelBuilder.Entity("backend.Models.Profesor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nume")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Prenume")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("profEnum")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Profesori");
+                });
+
+            modelBuilder.Entity("backend.Models.ProfesorMaterie", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("MaterieId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProfesorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MaterieId");
+
+                    b.HasIndex("ProfesorId");
+
+                    b.ToTable("ProfesoriMaterii");
+                });
+
+            modelBuilder.Entity("backend.Models.ProfesorMaterie", b =>
+                {
+                    b.HasOne("backend.Models.Materie", "Materie")
+                        .WithMany("ProfesorMaterie")
+                        .HasForeignKey("MaterieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("backend.Models.Profesor", "Profesor")
+                        .WithMany("ProfesorMaterie")
+                        .HasForeignKey("ProfesorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Materie");
+
+                    b.Navigation("Profesor");
+                });
+
+            modelBuilder.Entity("backend.Models.Materie", b =>
+                {
+                    b.Navigation("ProfesorMaterie");
+                });
+
+            modelBuilder.Entity("backend.Models.Profesor", b =>
+                {
+                    b.Navigation("ProfesorMaterie");
                 });
 #pragma warning restore 612, 618
         }

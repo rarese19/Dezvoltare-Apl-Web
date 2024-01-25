@@ -11,7 +11,7 @@ builder.Services.AddCors(options =>
 {
 	options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
 	{
-		policy.WithOrigins("http://localhost:5174", "https://localhost:5174")
+		policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
 			.AllowAnyHeader()
 			.AllowAnyMethod()
 			.AllowCredentials();
@@ -31,7 +31,7 @@ builder.Services.AddSeeders();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
-SeedData(app);
+/*SeedData(app);*/
 
 if (app.Environment.IsDevelopment())
 {
@@ -49,12 +49,11 @@ app.MapControllers();
 
 app.Run();
 
-void SeedData(IHost app)
+/*void SeedData(IHost app)
 {
 	var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
 	using (var scope = scopedFactory.CreateScope())
 	{
-		var testService = scope.ServiceProvider.GetService<TestSeeder>();
-		testService.SeedInitialTests();
+
 	}
-}
+}*/
